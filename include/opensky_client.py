@@ -4,7 +4,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-OPENSKY_AUTH_URL = "https://opensky-network.org/api/auth/token"
+OPENSKY_AUTH_URL = "https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token"
 OPENSKY_API_BASE = "https://opensky-network.org/api"
 
 AIRPORTS = ["KJFK", "EGLL", "LFPG", "RJTT", "OMDB", "YSSY"]
@@ -17,8 +17,12 @@ def get_access_token():
 
     response = requests.post(
         OPENSKY_AUTH_URL,
-        data={"grant_type": "client_credentials"},
-        auth=(client_id, client_secret),
+        data={
+            "grant_type": "client_credentials",
+            "client_id": client_id,
+            "client_secret": client_secret,
+        },
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
         timeout=30,
     )
     response.raise_for_status()
