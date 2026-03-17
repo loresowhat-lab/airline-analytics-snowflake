@@ -38,6 +38,8 @@ def get_connection():
         database=os.environ["SNOWFLAKE_DATABASE"],
         schema=SCHEMA_GOLD,
         role=os.environ.get("SNOWFLAKE_ROLE", "ACCOUNTADMIN"),
+        login_timeout=120,
+        network_timeout=120,
     )
 
 
