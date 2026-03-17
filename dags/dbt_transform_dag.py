@@ -12,6 +12,7 @@ from airflow.operators.bash import BashOperator
 
 DBT_PROJECT_DIR = "/opt/airflow/dbt"
 DBT_PROFILES_DIR = "/opt/airflow/dbt"
+DBT_VENV_BIN = "/opt/dbt-venv/bin"
 
 default_args = {
     "owner": "analytics-academy",
@@ -33,22 +34,22 @@ def dbt_transform_dag():
 
     dbt_deps = BashOperator(
         task_id="dbt_deps",
-        bash_command=f"cd {DBT_PROJECT_DIR} && dbt deps --profiles-dir {DBT_PROFILES_DIR}",
+        bash_command=f"cd {DBT_PROJECT_DIR} && {DBT_VENV_BIN}/dbt deps --profiles-dir {DBT_PROFILES_DIR}",
     )
 
     dbt_seed = BashOperator(
         task_id="dbt_seed",
-        bash_command=f"cd {DBT_PROJECT_DIR} && dbt seed --profiles-dir {DBT_PROFILES_DIR}",
+        bash_command=f"cd {DBT_PROJECT_DIR} && {DBT_VENV_BIN}/dbt seed --profiles-dir {DBT_PROFILES_DIR}",
     )
 
     dbt_run = BashOperator(
         task_id="dbt_run",
-        bash_command=f"cd {DBT_PROJECT_DIR} && dbt run --profiles-dir {DBT_PROFILES_DIR}",
+        bash_command=f"cd {DBT_PROJECT_DIR} && {DBT_VENV_BIN}/dbt run --profiles-dir {DBT_PROFILES_DIR}",
     )
 
     dbt_test = BashOperator(
         task_id="dbt_test",
-        bash_command=f"cd {DBT_PROJECT_DIR} && dbt test --profiles-dir {DBT_PROFILES_DIR}",
+        bash_command=f"cd {DBT_PROJECT_DIR} && {DBT_VENV_BIN}/dbt test --profiles-dir {DBT_PROFILES_DIR}",
     )
 
     dbt_deps >> dbt_seed >> dbt_run >> dbt_test
