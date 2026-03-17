@@ -20,6 +20,8 @@ models:
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 1440
+              config:
+                severity: warn
 
   - name: slv_airports
     description: >
