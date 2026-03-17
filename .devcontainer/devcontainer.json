@@ -12,11 +12,15 @@
     }
   },
 
-  "forwardPorts": [8080],
+  "forwardPorts": [8080, 8501],
   "portsAttributes": {
     "8080": {
       "label": "Airflow UI",
       "onAutoForward": "openBrowser"
+    },
+    "8501": {
+      "label": "Streamlit Dashboard",
+      "onAutoForward": "notify"
     }
   },
 

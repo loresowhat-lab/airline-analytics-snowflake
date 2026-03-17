@@ -60,5 +60,14 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
+  streamlit:
+    build:
+      context: ./streamlit
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "8501:8501"
+    restart: always
+
 volumes:
   postgres-data:
