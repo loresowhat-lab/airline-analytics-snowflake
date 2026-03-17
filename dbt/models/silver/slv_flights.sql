@@ -4,6 +4,23 @@ with raw as (
 
 ),
 
+deduplicated as (
+
+    select
+        *,
+        row_number() over (
+            partition by icao24, first_seen, last_seen, flight_direction
+            order by ingested_at desc
+        ) as _row_num
+    from raw
+    where
+        -- Remove records with null airports on both sides
+        (est_departure_airport is not null or est_arrival_airport is not null)
+        -- Remove clearly invalid durations
+        and first_seen <= last_seen
+
+),
+
 cleaned as (
 
     select
@@ -38,12 +55,8 @@ cleaned as (
         queried_airport,
         ingested_at
 
-    from raw
-    where
-        -- Remove records with null airports on both sides
-        (est_departure_airport is not null or est_arrival_airport is not null)
-        -- Remove clearly invalid durations
-        and first_seen <= last_seen
+    from deduplicated
+    where _row_num = 1
 
 )
 
