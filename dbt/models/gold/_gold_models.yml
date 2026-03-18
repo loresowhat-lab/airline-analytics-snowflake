@@ -29,8 +29,8 @@ models:
 
   - name: gld_hourly_flight_activity
     description: >
-      Gold layer — flight counts and avg duration broken down by hour of day (UTC),
-      airport, and direction. Useful for identifying peak traffic windows.
+      Gold layer — flight counts and avg duration broken down by hour of day (UTC and local),
+      airport, and direction. Includes timezone-aware local hour conversion.
     columns:
       - name: flight_date
         tests:
@@ -40,3 +40,15 @@ models:
           - dbt_utils.accepted_range:
               min_value: 0
               max_value: 23
+
+  - name: gld_airline_traffic
+    description: >
+      Gold layer — aggregated airline traffic metrics per airport and direction.
+      Includes flight counts, unique aircraft, duration stats, and airline reference data.
+    columns:
+      - name: callsign_prefix
+        tests:
+          - not_null
+      - name: airport_icao
+        tests:
+          - not_null

@@ -20,9 +20,12 @@ hourly as (
 
 select
     h.*,
+    -- Local time conversion using airport timezone offset
+    mod(h.departure_hour_utc + ap.utc_offset_hours + 24, 24)  as departure_hour_local,
     ap.airport_name,
     ap.city,
-    ap.country
+    ap.country,
+    ap.timezone
 from hourly h
 left join {{ ref('slv_airports') }} ap
     on h.airport_icao = ap.airport_icao

@@ -50,6 +50,9 @@ cleaned as (
         departure_airport_candidates_count,
         arrival_airport_candidates_count,
 
+        -- ── Airline lookup key ──
+        upper(left(trim(callsign), 3))                  as callsign_prefix,
+
         -- ── Metadata ──
         flight_direction,
         queried_airport,

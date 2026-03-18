@@ -10,5 +10,8 @@ select
     city,
     country,
     latitude,
-    longitude
+    longitude,
+    timezone,
+    utc_offset_hours,
+    is_tracked
 from airports_seed

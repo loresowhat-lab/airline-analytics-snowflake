@@ -26,8 +26,19 @@ models:
   - name: slv_airports
     description: >
       Silver layer — airport reference dimension from seed data.
+      Includes timezone and UTC offset for local time conversion.
     columns:
       - name: airport_icao
+        tests:
+          - unique
+          - not_null
+
+  - name: slv_airlines
+    description: >
+      Silver layer — airline reference dimension from seed data.
+      Maps callsign prefixes to airline names, IATA codes, and alliances.
+    columns:
+      - name: callsign_prefix
         tests:
           - unique
           - not_null
