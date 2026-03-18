@@ -34,19 +34,13 @@ INSERT INTO RAW_FLIGHTS (
     est_arrival_airport_horiz_distance, est_arrival_airport_vert_distance,
     departure_airport_candidates_count, arrival_airport_candidates_count,
     flight_direction, queried_airport, ingested_at
-)
-SELECT %(icao24)s, %(first_seen)s, %(est_departure_airport)s, %(last_seen)s,
-       %(est_arrival_airport)s, %(callsign)s,
-       %(est_departure_airport_horiz_distance)s, %(est_departure_airport_vert_distance)s,
-       %(est_arrival_airport_horiz_distance)s, %(est_arrival_airport_vert_distance)s,
-       %(departure_airport_candidates_count)s, %(arrival_airport_candidates_count)s,
-       %(flight_direction)s, %(queried_airport)s, %(ingested_at)s
-WHERE NOT EXISTS (
-    SELECT 1 FROM RAW_FLIGHTS
-    WHERE icao24 = %(icao24)s
-      AND first_seen = %(first_seen)s
-      AND last_seen = %(last_seen)s
-      AND flight_direction = %(flight_direction)s
+) VALUES (
+    %(icao24)s, %(first_seen)s, %(est_departure_airport)s, %(last_seen)s,
+    %(est_arrival_airport)s, %(callsign)s,
+    %(est_departure_airport_horiz_distance)s, %(est_departure_airport_vert_distance)s,
+    %(est_arrival_airport_horiz_distance)s, %(est_arrival_airport_vert_distance)s,
+    %(departure_airport_candidates_count)s, %(arrival_airport_candidates_count)s,
+    %(flight_direction)s, %(queried_airport)s, %(ingested_at)s
 );
 """
 
